@@ -1,0 +1,37 @@
+<nb-card style="margin-bottom: 10px; padding: 10px;" [ngStyle]="answerMode ? {'cursor':'pointer'} : {}">
+  <div>
+    <div class="row">
+      <div class="col-xs-7">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 style="margin: 0 0 7px 0;">{{poll.title}}</h6>
+          </div>
+          <div class="col-sm-12">
+            <span>{{poll.description}}</span>
+          </div>
+        </div>
+      </div>
+      <div class="col-xs-5">
+        <div class="row">
+          <div class="col-sm-12" style="text-align: right">
+            <span style="font-size: 10px;">Created by: {{poll.user}}&nbsp;</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-sm-12" style="text-align: right">
+            <span style="font-size: 10px;">{{poll.created_at | date:'medium'}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row" style="margin-top: 15px;" *ngIf="!answerMode">
+      <div class="col-sm-12">
+        <button nbButton outline size="small" status="warning" (click)="editPollEmitted()" style="margin-right: 10px;">Edit</button>
+        <button nbButton outline size="small" status="info" (click)="listSubmittedAnswersEmitted()" style="margin-right: 10px;">Submitted answers</button>
+        <button nbButton outline size="small" status="danger" (click)="archivePoll()" style="margin-right: 10px;">Archive</button>
+        <!--<button nbButton outline size="small" status="success" (click)="getPollLink()">Get link</button>-->
+        <button nbButton outline size="small" status="success" ngxClipboard (cbOnSuccess)="linkCopied($event)" [cbContent]="pollLink">Get link</button>
+      </div>
+    </div>
+  </div>
+</nb-card>

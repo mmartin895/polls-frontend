@@ -1,0 +1,23 @@
+<nb-accordion>
+  <nb-accordion-item *ngFor="let poll of submittedPolls">
+    <nb-accordion-item-header style="padding: 7px 15px; font-weight: normal;">
+      <div class="row">
+        <div class="col-sm-12">
+          <span style="font-size: 12px;">Answered by: <strong>{{poll.user ? poll.user : 'Anonymus user'}}</strong></span>
+          <span style="font-size: 12px;"> - {{poll.answered_at | date:'medium'}}</span>
+        </div>
+      </div>
+    </nb-accordion-item-header>
+    <nb-accordion-item-body>
+      <div class="row" *ngFor="let answer of poll.answers; let i = index; let isLast = last;" [ngStyle]="isLast ? {} : {'margin-bottom': '12px'}">
+        <div class="col-sm-12">
+          <span style="font-size: 12px;">{{questions[i].content}}</span>
+        </div>
+        <div class="col-sm-12">
+          <span style="font-size: 12px;"><strong>{{answer.answer}}</strong></span>
+        </div>
+      </div>
+    </nb-accordion-item-body>
+  </nb-accordion-item>
+</nb-accordion>
+<h6 *ngIf="submittedPolls.length === 0">No submitted polls found.</h6>

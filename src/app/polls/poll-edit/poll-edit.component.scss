@@ -1,0 +1,37 @@
+.form-group {
+  margin-bottom: 1rem;
+}
+
+::ng-deep .minimal tag {
+  display: table !important;
+  border-radius: 0.25rem !important;
+  font-size: 0.9375rem !important;
+  font-weight: 400 !important;
+  background-color: #f7f9fc !important;
+  border-color: #e4e9f2 !important;
+  color: #222b45 !important;
+}
+
+::ng-deep .minimal.ng2-tag-input .ng2-tags-container {
+  display: block !important;
+}
+
+::ng-deep nb-toggle {
+  display: block !important;
+}
+
+.content-horizontal-center {
+  text-align: center;
+}
+
+.content-horizontal-right {
+  text-align: right;
+}
+
+.content-vertical-align {
+  margin: auto 0;
+}
+
+.footer-min-padding {
+  padding: 0.1rem 0 0 0;
+}

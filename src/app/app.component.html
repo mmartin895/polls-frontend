@@ -1,0 +1,43 @@
+<nb-layout>
+
+  <nb-layout-header fixed *ngIf="showHead">
+    <div class="col-sm-1">
+      <h4>Polls</h4>
+    </div>
+
+    <div class="col-sm-3" *ngIf="user">
+      <nb-actions size="large">
+        <nb-action>
+          <a [routerLink]="['/polls', 'explore']">Explore</a>
+        </nb-action>
+        <nb-action>
+          <a [routerLink]="['/polls', 'list']">My polls</a>
+        </nb-action>
+      </nb-actions>
+    </div>
+
+    <div class="col-sm-8" style="text-align: right" *ngIf="user">
+      <span style="margin-right: 20px;">{{user.email}}</span>
+      <button nbButton outline status="primary" (click)="logout()">Logout</button>
+    </div>
+    <div class="col-sm-offset-10 col-sm-1" style="text-align: right" *ngIf="!user">
+      <nb-actions size="large">
+        <nb-action>
+          <a [routerLink]="['/auth', 'login']">Login</a>
+        </nb-action>
+      </nb-actions>
+    </div>
+  </nb-layout-header>
+
+  <nb-layout-column>
+
+    <router-outlet></router-outlet>
+    
+  </nb-layout-column>
+
+  <nb-layout-footer fixed *ngIf="showHead">
+  <!-- Insert footer here -->
+  </nb-layout-footer>
+
+</nb-layout>
+

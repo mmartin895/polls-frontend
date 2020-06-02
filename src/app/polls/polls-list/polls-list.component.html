@@ -1,0 +1,18 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-4">
+      <button nbButton status="primary" style="margin-bottom: 10px;" (click)="activateCreatePollMode()">Create poll</button>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-4">
+      <app-poll-item *ngFor="let poll of polls" [poll]="poll" [answerMode]="false" (editPoll)="selectPoll($event, poll)" (listSubmittedAnswers)="selectPoll($event, poll)"></app-poll-item>
+      <h6 *ngIf="polls.length === 0">No polls found.</h6>
+    </div>
+    <div class="col-sm-8">
+      <app-poll-edit *ngIf="createPollMode" [poll]="selectedPoll" [editMode]="editMode" (pollSubmit)="pollSubmitted($event)"></app-poll-edit>
+      <app-polls-submitted *ngIf="!createPollMode && selectedPoll" [poll]="selectedPoll"></app-polls-submitted>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,74 @@
+<nb-card style="padding: 10px; margin-bottom: 1rem;">
+  <nb-card-body>
+    <form [formGroup]="pollInfoForm">
+      <div class="row">
+        <div class="col-sm-4">
+          <label for="poll-title" class="label">Title</label>
+          <input type="text" id="poll-title" nbInput fullWidth formControlName="title">
+        </div>
+        <div class="col-sm-7">
+          <label for="poll-description" class="label">Description</label>
+          <input type="text" id="poll-description" nbInput fullWidth formControlName="description">
+        </div>
+        <div class="col-sm-1 content-horizontal-right">
+          <label for="poll-premium" class="label">Premium</label>
+          <nb-toggle id="poll-premium" status="basic" formControlName="premium"></nb-toggle>
+        </div>
+      </div>
+    </form>
+  </nb-card-body>
+</nb-card>
+
+<form [formGroup]="pollQuestionsForm">
+  <ng-container formArrayName="questions">
+    <nb-card style="padding: 10px; margin-bottom: 1rem;" *ngFor="let q of questionsArray.controls; let i = index;" formGroupName="{{i}}">
+      <nb-card-body>
+        <div class="row">
+          <div class="col-sm-7">
+            <label for="question-content" class="label">Question</label>
+            <input id="question-content" type="text" nbInput fullWidth formControlName="content">
+          </div>
+          <div class="col-sm-3">
+            <label for="question-type" class="label">Type</label>
+            <nb-select id="question-type" placeholder="Select question type" fullWidth formControlName="type">
+              <nb-option *ngFor="let type of questionTypes" value="{{type}}">{{questionTypesMapped.get(type)}}</nb-option>
+            </nb-select>
+          </div>
+          <div class="col-sm-1 content-horizontal-right">
+            <label for="question-required" class="label">Required</label>
+            <nb-toggle id="question-required" status="basic" formControlName="required"></nb-toggle>
+          </div>
+          <div class="col-sm-1 content-horizontal-right content-vertical-align">
+            <button nbButton status="danger" style="margin-top: 5px;" (click)="removeQuestion(i)">
+              <nb-icon icon="trash-outline"></nb-icon>
+            </button>
+          </div>
+        </div>
+        <div class="row" *ngIf="questionsArray.controls[i].get('type').value === 'SC' || questionsArray.controls[i].get('type').value === 'MC' || questionsArray.controls[i].get('type').value === 'DC'">
+          <div class="col-sm-12">
+            <tag-input formControlName="choices"
+                       placeholder="+ Choice"
+                       secondaryPlaceholder="Enter a new choice"
+                       theme="minimal"
+                       [editable]="true"></tag-input>
+          </div>
+        </div>
+      </nb-card-body>
+    </nb-card>
+  </ng-container>
+</form>
+
+<nb-card>
+  <nb-card-body>
+    <div class="row">
+      <div class="col-sm-6">
+        <button nbButton outline status="primary" (click)="addEmptyQuestion()">Add question</button>
+      </div>
+      <div class="col-sm-6" style="text-align: right;">
+        <button nbButton outline status="danger" (click)="closePollForm()" style="margin-right: 10px;">Cancel</button>
+        <button nbButton status="primary" *ngIf="!editMode" (click)="createPoll()" [disabled]="pollInfoForm.invalid || pollQuestionsForm.invalid">Create</button>
+        <button nbButton status="primary" *ngIf="editMode" (click)="createPoll()" [disabled]="pollInfoForm.invalid || pollQuestionsForm.invalid">Update</button>
+      </div>
+    </div>
+  </nb-card-body>
+</nb-card>
