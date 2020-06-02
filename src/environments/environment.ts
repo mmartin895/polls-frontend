@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   apiBaseUrl: 'http://127.0.0.1:8000/api/v1',
-  domainUrl: 'http://127.0.0.1:4200'
+  domainUrl: 'http://localhost:4200'
 };
 
 /*
