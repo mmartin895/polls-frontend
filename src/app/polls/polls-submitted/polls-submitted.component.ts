@@ -32,7 +32,6 @@ export class PollsSubmittedComponent implements OnInit, OnDestroy {
     this.submittedPollsSubscription = this.pollService.submittedPollsChanged
       .subscribe((submittedPolls: SubmittedPoll[]) => {
         this.submittedPolls = submittedPolls;
-        console.log('submitted polls', submittedPolls);
       });
     this.dataStorageService.fetchSubmittedPollsList(this.poll.id).subscribe();
     this.submittedPolls = this.pollService.getSubmittedPollsList();

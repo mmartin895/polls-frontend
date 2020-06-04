@@ -62,6 +62,14 @@ export class DataStorageService {
       );
   }
 
+  fetchSubmittedPollForUser(poll: number): Observable<SubmittedPoll[]> {
+    let params;
+    if (poll) {
+      params = new HttpParams().set('poll', String(poll));
+    }
+    return this.http.get<SubmittedPoll[]>(this.submittedPollsApiBaseUrl, {params: params});
+  }
+
   fetchPollsList(user: string): Observable<Poll[]> {
     let params;
     if (user) {

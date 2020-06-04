@@ -14,7 +14,12 @@
           <span style="font-size: 12px;">{{questions[i].content}}</span>
         </div>
         <div class="col-sm-12">
-          <span style="font-size: 12px;"><strong>{{answer.answer}}</strong></span>
+          <span style="font-size: 12px;" *ngIf="questions[i].type !== 'MC'">
+            <strong>{{answer.answer}}</strong>
+          </span>
+          <span style="font-size: 12px;" *ngIf="questions[i].type === 'MC'">
+            <strong>{{answer.answer ? (answer.answer.split(';').length > 1 ? answer.answer.split(';').join(', ') : '') : ''}}</strong>
+          </span>
         </div>
       </div>
     </nb-accordion-item-body>

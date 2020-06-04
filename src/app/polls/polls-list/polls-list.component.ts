@@ -27,7 +27,6 @@ export class PollsListComponent implements OnInit, OnDestroy {
     this.pollsSubscription = this.pollService.pollsChanged
       .subscribe((polls: Poll[]) => {
         this.polls = polls;
-        console.log('polls', polls);
       });
     this.polls = this.pollService.getPollsList();
   }
@@ -46,7 +45,6 @@ export class PollsListComponent implements OnInit, OnDestroy {
     this.selectedPoll = poll;
     this.cdr.detectChanges();
     this.dataStorageService.fetchQuestionsListFilteredByPoll(poll.id).subscribe();
-    console.log(poll);
   }
 
   activateCreatePollMode() {

@@ -5,7 +5,7 @@
       <h6 *ngIf="polls.length === 0">No polls found.</h6>
     </div>
     <div class="col-sm-8">
-      <app-questions-list *ngIf="selectedPoll" [poll]="selectedPoll"></app-questions-list>
+      <app-questions-list *ngIf="selectedPoll" [poll]="selectedPoll" (answersSubmitted)="handleAnswersSubmitted()"></app-questions-list>
     </div>
   </div>
 </div>

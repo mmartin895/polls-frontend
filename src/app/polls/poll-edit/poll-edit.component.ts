@@ -38,7 +38,7 @@ export class PollEditComponent implements OnInit, OnDestroy {
     this.questionTypesMapped.set(QuestionTypeEnum.TI, 'Text input');
     this.questionTypesMapped.set(QuestionTypeEnum.NI, 'Numeric input');
     this.questionTypesMapped.set(QuestionTypeEnum.SC, 'Single choice');
-    // this.questionTypesMapped.set(QuestionTypeEnum.MC, 'Multiple choices');
+    this.questionTypesMapped.set(QuestionTypeEnum.MC, 'Multiple choices');
     this.questionTypesMapped.set(QuestionTypeEnum.DC, 'Dropdown choice');
   }
 
@@ -125,8 +125,6 @@ export class PollEditComponent implements OnInit, OnDestroy {
   }
 
   createPoll() {
-    console.log('pollInfoForm', this.pollInfoForm.value);
-    console.log('pollQuestionsForm', this.pollQuestionsForm.value);
     const pollInfo = this.pollInfoForm.value;
     const pollQuestions = this.pollQuestionsForm.value.questions;
     const requestBody = {
@@ -143,11 +141,9 @@ export class PollEditComponent implements OnInit, OnDestroy {
         required: q.required
       });
     });
-    console.log('requestBody', requestBody);
 
     if (this.editMode) {
       this.dataStorageService.updatePoll(requestBody, String(this.poll.id)).subscribe(success => {
-        console.log('user poll edit', this.user);
         this.dataStorageService.fetchPollsList(this.user.id).subscribe();
         this.pollSubmit.emit(true);
         this.toastr.show(
@@ -159,7 +155,6 @@ export class PollEditComponent implements OnInit, OnDestroy {
       });
     } else {
       this.dataStorageService.createPoll(requestBody).subscribe(success => {
-        console.log('user poll edit', this.user);
         this.dataStorageService.fetchPollsList(this.user.id).subscribe();
         this.pollSubmit.emit(true);
         this.toastr.show(

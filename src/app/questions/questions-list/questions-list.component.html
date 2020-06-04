@@ -9,39 +9,68 @@
           <ng-container *ngFor="let q of questions; let i = index;">
             <div class="row">
               <div class="col-sm-12">
-                <p>{{q.content}}</p>
+                <p>{{q.content}} {{q.required ? '' : '(optional)'}}</p>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <input nbInput fullWidth fieldSize="small" *ngIf="q.type === 'TI'" type="text" formControlName="{{i}}">
-                <input nbInput fullWidth fieldSize="small" *ngIf="q.type === 'NI'" type="number" formControlName="{{i}}">
-                <nb-radio-group *ngIf="q.type === 'SC'" formControlName="{{i}}">
+                <input nbInput
+                       *ngIf="q.type === 'TI'"
+                       fullWidth
+                       fieldSize="small"
+                       [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
+                       type="text"
+                       id="ti_{{i}}"
+                       formControlName="{{i}}">
+                <input nbInput
+                       *ngIf="q.type === 'NI'"
+                       fullWidth
+                       fieldSize="small"
+                       [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
+                       type="number"
+                       id="ni_{{i}}"
+                       formControlName="{{i}}">
+                <nb-radio-group *ngIf="q.type === 'SC'"
+                                id="sc_{{i}}"
+                                name="sc_{{i}}"
+                                formControlName="{{i}}">
                   <nb-radio
                     *ngFor="let choice of q.choices.split(';')"
                     [value]="choice">
                     {{choice}}
                   </nb-radio>
                 </nb-radio-group>
-                <!--ng-container *ngIf="q.type === 'MC'">
-                  <div class="row" *ngFor="let choice of q.choices.split(';'); let j = index">
-                    <div class="col-sm-12" style="margin: 4px 0">
-                      // TODO popraviti !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      <nb-checkbox status="basic" formControlName="{{i}}">{{choice}}</nb-checkbox>
+                <ng-container *ngIf="q.type === 'MC'" formGroupName="{{i}}">
+                  <ng-container formArrayName="mcAnswers">
+                    <div class="row" *ngFor="let choice of q.choices.split(';'); let j = index">
+                      <div class="col-sm-12" style="margin: 4px 0">
+                        <nb-checkbox status="basic" formControlName="{{j}}" [value]="choice" (change)="onCheckChange($event, i)">{{choice}}</nb-checkbox>
+                      </div>
                     </div>
-                  </div>
-                </ng-container-->
-                <nb-select placeholder="Select option" formControlName="{{i}}" *ngIf="q.type === 'DC'">
+                  </ng-container>
+                </ng-container>
+                <nb-select *ngIf="q.type === 'DC'"
+                           id="dc_{{i}}"
+                           placeholder="Select option"
+                           formControlName="{{i}}">
                   <nb-option *ngFor="let choice of q.choices.split(';')" value="{{choice}}">{{choice}}</nb-option>
                 </nb-select>
+                <ng-container *ngIf="answersArray.controls[i].invalid && answersArray.controls[i].touched">
+                  <p class="question-input-error-message" *ngIf="answersArray.controls[i].errors?.required">
+                    This field is required!
+                  </p>
+                </ng-container>
               </div>
             </div>
           </ng-container>
 
         </nb-card-body>
         <nb-card-footer>
-          <button nbButton status="primary" *ngIf="isAuthenticated || (!isAuthenticated && !poll.premium)" (click)="submitPollAnswers()" [disabled]="answersForm.invalid">Submit</button>
+          <button nbButton status="primary" *ngIf="(isAuthenticated && !isAlreadySubmittedByUser) || (!isAuthenticated && !poll.premium)" (click)="submitPollAnswers()" [disabled]="answersForm.invalid">Submit</button>
           <button nbButton status="primary" *ngIf="poll.premium && !isAuthenticated" [routerLink]="['/auth/login']">Log in to answer</button>
+          <p class="already-submitted-label" *ngIf="isAuthenticated && isAlreadySubmittedByUser">
+            You submitted answers for this poll!
+          </p>
         </nb-card-footer>
       </nb-card>
     </ng-container>

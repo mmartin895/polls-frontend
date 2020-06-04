@@ -1,9 +1,9 @@
-import {ChangeDetectorRef, Component, Input, OnDestroy, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {Subscription} from 'rxjs';
 import {DataStorageService} from '../../services/data-storage.service';
-import {Question} from '../../models/question.model';
+import {Question, QuestionTypeEnum} from '../../models/question.model';
 import {QuestionService} from '../../services/question.service';
-import {Poll} from '../../models/poll.model';
+import {Poll, SubmittedPoll} from '../../models/poll.model';
 import {FormArray, FormControl, FormGroup, Validators} from '@angular/forms';
 import {NbGlobalPhysicalPosition, NbToastrService} from '@nebular/theme';
 import {ActivatedRoute} from '@angular/router';
@@ -17,6 +17,7 @@ import {UserService} from '../../services/user.service';
 })
 export class QuestionsListComponent implements OnInit, OnDestroy {
   @Input() poll: Poll;
+  @Output() answersSubmitted = new EventEmitter();
 
   questionsSubscription: Subscription;
   questions: Question[] = [];
@@ -25,6 +26,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   isDirectView: boolean;
 
   isAuthenticated: boolean;
+  isAlreadySubmittedByUser: boolean;
 
   constructor(
     private questionService: QuestionService,
@@ -36,6 +38,25 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     private userService: UserService
   ) {
 
+  }
+
+  checkIfPollAlreadySubmittedByUser() {
+    if (this.isAuthenticated) {
+      const userEmail = this.userService.user.value.email;
+      this.dataStorageService.fetchSubmittedPollForUser(this.poll.id).subscribe((success: SubmittedPoll[]) => {
+        if (success && success.length > 0) {
+          if (success.findIndex(submittedPoll => submittedPoll.user ? submittedPoll.user === userEmail : false) !== -1) {
+            this.isAlreadySubmittedByUser = true;
+          } else {
+            this.isAlreadySubmittedByUser = false;
+          }
+        }
+      }, error => {
+        console.log('fetchSubmittedPollForUser error', error);
+      });
+    } else {
+      this.isAlreadySubmittedByUser = false;
+    }
   }
 
   ngOnInit(): void {
@@ -52,11 +73,13 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
           });
         this.poll = this.pollService.getPollsList().find(p => p.id === Number(id));
         if (this.poll) {
+          this.checkIfPollAlreadySubmittedByUser();
           this.dataStorageService.fetchQuestionsListFilteredByPoll(Number(id)).subscribe();
           this.questions = this.questionService.getQuestionsList();
           this.initForms();
         }
       } else {
+        this.checkIfPollAlreadySubmittedByUser();
         this.questionsSubscription = this.questionService.questionsChanged
           .subscribe((questions: Question[]) => {
             this.questions = questions;
@@ -80,8 +103,17 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     this.answersForm = new FormGroup({
       answers: new FormArray([])
     });
-    this.questions.forEach(q => {
-      this.answersArray.push(new FormControl('', q.required ? Validators.required : []));
+    this.questions.forEach((q, index) => {
+      if (q.type !== QuestionTypeEnum.MC) {
+        this.answersArray.push(new FormControl('', q.required ? Validators.required : []));
+      } else {
+        this.answersArray.push(new FormGroup({
+          mcAnswers: new FormArray([])
+        }));
+        q.choices.split(';').forEach(choice => {
+          (this.answersArray.controls[index].get('mcAnswers') as FormArray).push(new FormControl());
+        });
+      }
     });
   }
 
@@ -90,23 +122,34 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
   }
 
   submitPollAnswers() {
-    console.log('answersFOrm', this.answersForm.value);
     const requestBody = {
       poll: this.poll.id,
       answers: []
     };
 
     this.answersArray.value.forEach((value, index) => {
-      console.log('value', value);
-      requestBody.answers.push({
-        answer: value,
-        question: this.questions[index].id,
-      });
+      if (value.mcAnswers && value.mcAnswers instanceof Array) {
+        const mcAnswersArray = [];
+        value.mcAnswers.forEach((mca, index2) => {
+          if (mca === true) {
+            mcAnswersArray.push(this.questions[index].choices.split(';')[index2]);
+          }
+        });
+        requestBody.answers.push({
+          answer: mcAnswersArray.join(';'),
+          question: this.questions[index].id,
+        });
+      } else {
+        requestBody.answers.push({
+          answer: value,
+          question: this.questions[index].id,
+        });
+      }
     });
 
     this.dataStorageService.submitPoll(requestBody).subscribe(success => {
       this.dataStorageService.fetchPollsList(null).subscribe();
-      // this.pollSubmit.emit(true);
+      this.answersSubmitted.emit();
       this.toastr.show(
         null,
         'Successfully submitted poll answers',
@@ -114,5 +157,27 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     }, error => {
       console.log(error);
     });
+  }
+
+  onCheckChange(event, index: number) {
+    const formArray: FormArray = this.answersArray.controls[index].get('mcAnswers') as FormArray;
+    /* Selected */
+    if (event.target.checked){
+      // Add a new control in the arrayForm
+      formArray.push(new FormControl(event.target.value));
+    }
+    /* unselected */
+    else{
+      // find the unselected element
+      let i = 0;
+      formArray.controls.forEach((ctrl: FormControl) => {
+        if(ctrl.value === event.target.value) {
+          // Remove the unselected element from the arrayForm
+          formArray.removeAt(i);
+          return;
+        }
+        i++;
+      });
+    }
   }
 }

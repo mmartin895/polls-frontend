@@ -2,7 +2,7 @@ export enum QuestionTypeEnum {
   TI = 'TI',
   NI = 'NI',
   SC = 'SC',
-  // MC = 'MC',
+  MC = 'MC',
   DC = 'DC',
 }
 
@@ -20,6 +20,6 @@ export const questionTypes: QuestionTypeEnum[] = [
   QuestionTypeEnum.TI,
   QuestionTypeEnum.NI,
   QuestionTypeEnum.SC,
-  // QuestionTypeEnum.MC,
+  QuestionTypeEnum.MC,
   QuestionTypeEnum.DC,
 ];

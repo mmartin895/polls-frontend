@@ -54,8 +54,8 @@ import {ClipboardModule} from 'ngx-clipboard';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
-    ReactiveFormsModule,
     FormsModule,
+    ReactiveFormsModule,
     BrowserAnimationsModule,
     TagInputModule,
     NbAuthModule.forRoot({

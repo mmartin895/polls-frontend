@@ -24,7 +24,6 @@ export class PollsExploreComponent implements OnInit, OnDestroy {
     this.pollsSubscription = this.pollService.pollsChanged
       .subscribe((polls: Poll[]) => {
         this.polls = polls;
-        console.log('polls', polls);
       });
     this.polls = this.pollService.getPollsList();
   }
@@ -36,14 +35,15 @@ export class PollsExploreComponent implements OnInit, OnDestroy {
   selectPoll(event, poll: Poll) {
     this.changeSelectedPoll(poll);
     this.dataStorageService.fetchQuestionsListFilteredByPoll(poll.id).subscribe();
-    console.log(poll);
   }
 
-  activateCreatePollMode() {
+  handleAnswersSubmitted() {
     this.changeSelectedPoll(null);
   }
 
   changeSelectedPoll(poll: Poll) {
+    this.selectedPoll = null;
+    this.cdr.detectChanges();
     const pollItem = this.polls.find(p => p.selected);
     if (pollItem) {
       pollItem.selected = false;
@@ -54,9 +54,6 @@ export class PollsExploreComponent implements OnInit, OnDestroy {
     } else {
       this.selectedPoll = null;
     }
-  }
-
-  pollSubmitted(event) {
-
+    this.cdr.detectChanges();
   }
 }
