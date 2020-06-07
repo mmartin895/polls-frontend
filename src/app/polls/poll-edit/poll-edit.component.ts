@@ -140,7 +140,6 @@ export class PollEditComponent implements OnInit, OnDestroy {
       premium: pollInfo.premium,
       questions: [],
     };
-    console.log('poll.questsions', this.poll.questions);
     pollQuestions.forEach((q, index) => {
       let questionPayload = {
         content: q.content,
