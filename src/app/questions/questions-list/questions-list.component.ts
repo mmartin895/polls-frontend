@@ -105,7 +105,10 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
     });
     this.questions.forEach((q, index) => {
       if (q.type !== QuestionTypeEnum.MC) {
-        this.answersArray.push(new FormControl('', q.required ? Validators.required : []));
+        // this.answersArray.push(new FormControl('', q.required ? Validators.required : []));
+        this.answersArray.push(new FormGroup({
+          answer: new FormControl('', q.required ? Validators.required: [])
+        }));
       } else {
         this.answersArray.push(new FormGroup({
           mcAnswers: new FormArray([])
@@ -141,7 +144,7 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
         });
       } else {
         requestBody.answers.push({
-          answer: value,
+          answer: value.answer,
           question: this.questions[index].id,
         });
       }

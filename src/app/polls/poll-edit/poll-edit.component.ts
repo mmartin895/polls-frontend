@@ -81,7 +81,13 @@ export class PollEditComponent implements OnInit, OnDestroy {
         this.questionsArray.push(new FormGroup({
           content: new FormControl(q.content, Validators.required),
           type: new FormControl(q.type, Validators.required),
-          choices: new FormControl(q.choices.split(';')),
+          choices: new FormControl(q.choices.split(';')
+            .map(qitem => {
+              return {
+                display: qitem,
+                value: qitem
+              }
+            })),
           required: new FormControl(q.required)
         }));
       });
@@ -97,6 +103,7 @@ export class PollEditComponent implements OnInit, OnDestroy {
         ])
       });
     }
+    console.log('poll questions form', this.pollQuestionsForm);
   }
 
   get questionsArray() {
@@ -133,15 +140,23 @@ export class PollEditComponent implements OnInit, OnDestroy {
       premium: pollInfo.premium,
       questions: [],
     };
-    pollQuestions.forEach((q) => {
-      requestBody.questions.push({
+    console.log('poll.questsions', this.poll.questions);
+    pollQuestions.forEach((q, index) => {
+      let questionPayload = {
         content: q.content,
         type: q.type,
         choices: q.choices ? q.choices.map(item => item.value).join(';') : '',
         required: q.required
-      });
+      };
+      if (this.editMode) {
+        if (this.poll.questions[index]) {
+          questionPayload = Object.assign(questionPayload, {id: this.poll.questions[index].id});
+        }
+      }
+      requestBody.questions.push(questionPayload);
     });
 
+    console.log('requestBody', requestBody);
     if (this.editMode) {
       this.dataStorageService.updatePoll(requestBody, String(this.poll.id)).subscribe(success => {
         this.dataStorageService.fetchPollsList(this.user.id).subscribe();

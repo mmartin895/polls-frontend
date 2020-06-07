@@ -14,47 +14,59 @@
             </div>
             <div class="row">
               <div class="col-sm-12">
-                <input nbInput
-                       *ngIf="q.type === 'TI'"
-                       fullWidth
-                       fieldSize="small"
-                       [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
-                       type="text"
-                       id="ti_{{i}}"
-                       formControlName="{{i}}">
-                <input nbInput
-                       *ngIf="q.type === 'NI'"
-                       fullWidth
-                       fieldSize="small"
-                       [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
-                       type="number"
-                       id="ni_{{i}}"
-                       formControlName="{{i}}">
-                <nb-radio-group *ngIf="q.type === 'SC'"
-                                id="sc_{{i}}"
-                                name="sc_{{i}}"
-                                formControlName="{{i}}">
-                  <nb-radio
-                    *ngFor="let choice of q.choices.split(';')"
-                    [value]="choice">
-                    {{choice}}
-                  </nb-radio>
-                </nb-radio-group>
+                <ng-container formGroupName="{{i}}">
+                  <input nbInput
+                         *ngIf="q.type === 'TI'"
+                         fullWidth
+                         fieldSize="small"
+                         [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
+                         type="text"
+                         id="ti_{{i}}"
+                         formControlName="answer">
+                </ng-container>
+
+                <ng-container formGroupName="{{i}}">
+                  <input nbInput
+                         *ngIf="q.type === 'NI'"
+                         fullWidth
+                         fieldSize="small"
+                         [status]="answersArray.controls[i].dirty ? (answersArray.controls[i].invalid  ? 'danger' : 'basic') : 'basic'"
+                         type="number"
+                         id="ni_{{i}}"
+                         formControlName="answer">
+                </ng-container>
+
+                <ng-container formGroupName="{{i}}">
+                  <nb-radio-group *ngIf="q.type === 'SC'"
+                                  id="sc_{{i}}"
+                                  name="sc_{{i}}"
+                                  formControlName="answer">
+                    <nb-radio
+                      *ngFor="let choice of q.choices.split(';')"
+                      [value]="choice">
+                      {{choice}}
+                    </nb-radio>
+                  </nb-radio-group>
+                </ng-container>
+
                 <ng-container *ngIf="q.type === 'MC'" formGroupName="{{i}}">
                   <ng-container formArrayName="mcAnswers">
                     <div class="row" *ngFor="let choice of q.choices.split(';'); let j = index">
                       <div class="col-sm-12" style="margin: 4px 0">
-                        <nb-checkbox status="basic" formControlName="{{j}}" [value]="choice" (change)="onCheckChange($event, i)">{{choice}}</nb-checkbox>
+                        <nb-checkbox status="basic" formControlName="{{j}}" [checked]="choice" (change)="onCheckChange($event, i)">{{choice}}</nb-checkbox>
                       </div>
                     </div>
                   </ng-container>
                 </ng-container>
-                <nb-select *ngIf="q.type === 'DC'"
-                           id="dc_{{i}}"
-                           placeholder="Select option"
-                           formControlName="{{i}}">
-                  <nb-option *ngFor="let choice of q.choices.split(';')" value="{{choice}}">{{choice}}</nb-option>
-                </nb-select>
+
+                <ng-container formGroupName="{{i}}">
+                  <nb-select *ngIf="q.type === 'DC'"
+                             id="dc_{{i}}"
+                             placeholder="Select option"
+                             formControlName="answer">
+                    <nb-option *ngFor="let choice of q.choices.split(';')" value="{{choice}}">{{choice}}</nb-option>
+                  </nb-select>
+                </ng-container>
                 <ng-container *ngIf="answersArray.controls[i].invalid && answersArray.controls[i].touched">
                   <p class="question-input-error-message" *ngIf="answersArray.controls[i].errors?.required">
                     This field is required!

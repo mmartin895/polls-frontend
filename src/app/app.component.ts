@@ -11,7 +11,7 @@ import {UserService} from './services/user.service';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent implements OnInit, OnDestroy{
-  showHead: boolean = false;
+  showHead: boolean = true;
 
   user: User;
   private userSub: Subscription;
@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, OnDestroy{
 
   navigationInterceptor(event: RouterEvent): void {
     if (event instanceof NavigationStart) {
-      this.showHead = !event.url.startsWith('/auth');
+      // this.showHead = !event.url.startsWith('/auth');
     }
   }
 
@@ -37,6 +37,10 @@ export class AppComponent implements OnInit, OnDestroy{
       this.user = user;
     });
     this.userService.autoLogin();
+  }
+
+  navigateHome() {
+    this.router.navigate(['polls', 'explore']);
   }
 
   logout() {

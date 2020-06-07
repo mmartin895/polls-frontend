@@ -18,7 +18,7 @@
             <strong>{{answer.answer}}</strong>
           </span>
           <span style="font-size: 12px;" *ngIf="questions[i].type === 'MC'">
-            <strong>{{answer.answer ? (answer.answer.split(';').length > 1 ? answer.answer.split(';').join(', ') : '') : ''}}</strong>
+            <strong>{{answer.answer ? (answer.answer.split(';').length > 0 ? answer.answer.split(';').join(', ') : '') : ''}}</strong>
           </span>
         </div>
       </div>

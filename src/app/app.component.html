@@ -2,7 +2,7 @@
 
   <nb-layout-header fixed *ngIf="showHead">
     <div class="col-sm-1">
-      <h4>Polls</h4>
+      <h4 style="margin: 1rem 0; cursor: pointer;" (click)="navigateHome()">Polls</h4>
     </div>
 
     <div class="col-sm-3" *ngIf="user">
@@ -32,7 +32,7 @@
   <nb-layout-column>
 
     <router-outlet></router-outlet>
-    
+
   </nb-layout-column>
 
   <nb-layout-footer fixed *ngIf="showHead">
