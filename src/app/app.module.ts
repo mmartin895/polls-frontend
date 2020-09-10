@@ -109,3 +109,4 @@ import {ClipboardModule} from 'ngx-clipboard';
   bootstrap: [AppComponent]
 })
 export class AppModule { }
+// voja was here
