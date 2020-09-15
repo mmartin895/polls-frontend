@@ -79,6 +79,7 @@ export class PollEditComponent implements OnInit, OnDestroy {
 
       this.poll.questions.forEach(q => {
         this.questionsArray.push(new FormGroup({
+          id: new FormControl(q.id),
           content: new FormControl(q.content, Validators.required),
           type: new FormControl(q.type, Validators.required),
           choices: new FormControl(q.choices.split(';')
@@ -115,6 +116,7 @@ export class PollEditComponent implements OnInit, OnDestroy {
   addEmptyQuestion() {
     this.questionsArray.push(
       new FormGroup({
+        id: new FormControl(-2),
         content: new FormControl('', Validators.required),
         type: new FormControl(QuestionTypeEnum.TI, Validators.required),
         choices: new FormControl(),
@@ -141,17 +143,13 @@ export class PollEditComponent implements OnInit, OnDestroy {
       questions: [],
     };
     pollQuestions.forEach((q, index) => {
-      let questionPayload = {
+      const questionPayload = {
+        id: q.id,
         content: q.content,
         type: q.type,
         choices: q.choices ? q.choices.map(item => item.value).join(';') : '',
         required: q.required
       };
-      if (this.editMode) {
-        if (this.poll.questions[index]) {
-          questionPayload = Object.assign(questionPayload, {id: this.poll.questions[index].id});
-        }
-      }
       requestBody.questions.push(questionPayload);
     });
 
