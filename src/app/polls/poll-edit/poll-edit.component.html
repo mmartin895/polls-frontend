@@ -24,7 +24,7 @@
     <nb-card style="padding: 10px; margin-bottom: 1rem;" *ngFor="let q of questionsArray.controls; let i = index;" formGroupName="{{i}}">
       <nb-card-body>
         <div class="row">
-          <div class="col-sm-7">
+          <div class="col-sm-6">
             <label for="question-content" class="label">Question</label>
             <input id="question-content" type="text" nbInput fullWidth formControlName="content">
           </div>
@@ -41,6 +41,12 @@
           <div class="col-sm-1 content-horizontal-right content-vertical-align">
             <button nbButton status="danger" style="margin-top: 5px;" (click)="removeQuestion(i)">
               <nb-icon icon="trash-outline"></nb-icon>
+            </button>
+          </div>
+
+          <div class="col-sm-1 content-horizontal-right content-vertical-align">
+            <button *ngIf="q.get('answered').value" nbButton nbPopover="Warning:Question is anwsered!" nbPopoverTrigger="hover" nbPopoverPlacement="bottom">
+              <nb-icon icon="alert-triangle-outline" status="warning"></nb-icon>
             </button>
           </div>
         </div>

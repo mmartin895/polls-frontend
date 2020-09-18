@@ -25,7 +25,7 @@ import {
   NbContextMenuModule,
   NbMenuModule,
   NbTabsetModule,
-  NbActionsModule, NbAccordionModule,
+  NbActionsModule, NbAccordionModule, NbPopoverModule,
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PollEditComponent } from './polls/poll-edit/poll-edit.component';
@@ -95,6 +95,7 @@ import {ClipboardModule} from 'ngx-clipboard';
     NbSelectModule,
     NbToggleModule,
     NbIconModule,
+    NbPopoverModule,
     NbToastrModule.forRoot(),
     NbContextMenuModule,
     NbMenuModule.forRoot(),

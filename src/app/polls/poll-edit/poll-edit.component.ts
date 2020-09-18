@@ -87,19 +87,22 @@ export class PollEditComponent implements OnInit, OnDestroy {
               return {
                 display: qitem,
                 value: qitem
-              }
+              };
             })),
-          required: new FormControl(q.required)
+          required: new FormControl(q.required),
+          answered : new FormControl(q.answers.length > 0)
         }));
       });
     } else {
       this.pollQuestionsForm = new FormGroup({
         questions: new FormArray([
           new FormGroup({
+            id: new FormControl(-2),
             content: new FormControl('', Validators.required),
             type: new FormControl(QuestionTypeEnum.TI, Validators.required),
             choices: new FormControl(),
-            required: new FormControl(false)
+            required: new FormControl(false),
+            answered : new FormControl(false)
           })
         ])
       });
@@ -120,7 +123,8 @@ export class PollEditComponent implements OnInit, OnDestroy {
         content: new FormControl('', Validators.required),
         type: new FormControl(QuestionTypeEnum.TI, Validators.required),
         choices: new FormControl(),
-        required: new FormControl(false)
+        required: new FormControl(false),
+        answered : new FormControl(false)
       })
     );
   }
