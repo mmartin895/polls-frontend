@@ -138,15 +138,19 @@ export class QuestionsListComponent implements OnInit, OnDestroy {
             mcAnswersArray.push(this.questions[index].choices.split(';')[index2]);
           }
         });
-        requestBody.answers.push({
-          answer: mcAnswersArray.join(';'),
-          question: this.questions[index].id,
-        });
+        if (mcAnswersArray.length > 0){
+          requestBody.answers.push({
+            answer: mcAnswersArray.join(';'),
+            question: this.questions[index].id,
+          });
+        }
       } else {
-        requestBody.answers.push({
-          answer: value.answer,
-          question: this.questions[index].id,
-        });
+        if (value.answer !== '') {
+          requestBody.answers.push({
+            answer: value.answer,
+            question: this.questions[index].id,
+          });
+        }
       }
     });
 
