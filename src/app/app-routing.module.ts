@@ -6,6 +6,7 @@ import {PollResolverService} from './services/poll-resolver.service';
 import {AuthGuard} from './auth/auth.guard';
 import {PollsExploreComponent} from './polls/polls-explore/polls-explore.component';
 import {QuestionsListComponent} from './questions/questions-list/questions-list.component';
+import {PollFavouriteComponent} from './polls/poll-favourite/poll-favourite.component';
 
 
 const routes: Routes = [
@@ -16,6 +17,7 @@ const routes: Routes = [
     // canActivate: [AuthGuard],
     children: [
       {path: 'list', component: PollsListComponent, canActivate: [AuthGuard], resolve: [PollResolverService]},
+      {path: 'favourite', component: PollFavouriteComponent, canActivate: [AuthGuard]},
       {path: 'explore', component: PollsExploreComponent, resolve: [PollResolverService]},
       {path: 'explore/:id', component: QuestionsListComponent, resolve: [PollResolverService]},
     ]

@@ -82,6 +82,9 @@ export class DataStorageService {
         })
     );
   }
+  fetchFavouritePollsList(): Observable<Poll[]> {
+    return this.http.get<Poll[]>(this.pollsApiBaseUrl + 'favorites');
+  }
 
   fetchQuestionsListFilteredByPoll(id: number): Observable<Question[]> {
     const params = new HttpParams().set('poll', JSON.stringify(id));
