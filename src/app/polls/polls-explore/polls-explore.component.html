@@ -1,10 +1,10 @@
 <div class="container">
   <div class="row">
-    <div class="col-sm-4">
+    <div class="col-sm-5">
       <app-poll-item *ngFor="let poll of polls" [poll]="poll" [answerMode]="true" (click)="selectPoll($event, poll)"></app-poll-item>
       <h6 *ngIf="polls.length === 0">No polls found.</h6>
     </div>
-    <div class="col-sm-8">
+    <div class="col-sm-7">
       <app-questions-list *ngIf="selectedPoll" [poll]="selectedPoll" (answersSubmitted)="handleAnswersSubmitted()"></app-questions-list>
     </div>
   </div>

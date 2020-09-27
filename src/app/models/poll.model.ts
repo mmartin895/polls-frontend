@@ -12,6 +12,7 @@ export interface Poll {
   questions: Question[];
   selected?: boolean;
   user: string;
+  isFavorite: boolean;
 }
 
 export interface SubmittedPoll {

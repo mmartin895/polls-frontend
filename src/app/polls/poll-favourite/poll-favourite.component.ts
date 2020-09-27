@@ -8,7 +8,7 @@ import {Poll, SubmittedPoll} from '../../models/poll.model';
   styleUrls: ['./poll-favourite.component.scss']
 })
 export class PollFavouriteComponent implements OnInit {
-  private polls: Poll[] = [];
+  public polls: Poll[] = [];
   constructor(private dataStorage: DataStorageService) { }
 
   ngOnInit(): void {

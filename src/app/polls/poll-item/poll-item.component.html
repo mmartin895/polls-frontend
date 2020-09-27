@@ -4,7 +4,11 @@
       <div class="col-xs-7">
         <div class="row">
           <div class="col-sm-12">
-            <h6 style="margin: 0 0 7px 0;">{{poll.title}}</h6>
+            <h6 style="margin: 0 0 7px 0; display: inline;">{{poll.title}}</h6>
+            <span style="margin-left: 10px;" *ngIf="user">
+              <button *ngIf="poll.isFavorite" (click)="removeFromFavorites(poll)"><nb-icon   icon="star" status="warning" ></nb-icon></button>
+              <button *ngIf="!poll.isFavorite" (click)="addToFavorites(poll)"><nb-icon  icon="star-outline" status="warning" ></nb-icon></button>
+            </span>
           </div>
           <div class="col-sm-12">
             <span>{{poll.description}}</span>
