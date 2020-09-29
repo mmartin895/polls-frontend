@@ -10,6 +10,7 @@ import {FormsModule} from '@angular/forms';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
 import {AuthGuard} from './auth.guard';
+import {PermissionGuard} from './permission-guard';
 import {NbEvaIconsModule} from '@nebular/eva-icons';
 
 
@@ -31,7 +32,8 @@ import {NbEvaIconsModule} from '@nebular/eva-icons';
     NbAuthModule
   ],
   providers: [
-    AuthGuard
+    AuthGuard,
+    PermissionGuard
   ]
 })
 export class AuthModule { }

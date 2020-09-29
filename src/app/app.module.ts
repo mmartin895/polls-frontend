@@ -38,6 +38,7 @@ import { PollItemComponent } from './polls/poll-item/poll-item.component';
 import { PollsSubmittedComponent } from './polls/polls-submitted/polls-submitted.component';
 import {ClipboardModule} from 'ngx-clipboard';
 import { PollFavouriteComponent } from './polls/poll-favourite/poll-favourite.component';
+import { PollArchivedComponent } from './polls/poll-archived/poll-archived.component';
 
 @NgModule({
   declarations: [
@@ -51,6 +52,7 @@ import { PollFavouriteComponent } from './polls/poll-favourite/poll-favourite.co
     PollItemComponent,
     PollsSubmittedComponent,
     PollFavouriteComponent,
+    PollArchivedComponent,
   ],
   imports: [
     BrowserModule,

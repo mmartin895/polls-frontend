@@ -31,8 +31,13 @@ export class RegisterComponent extends NbRegisterComponent {
 
         const user = result.getResponse().body.user;
         const token = result.getResponse().body.key;
+        var permissions: string[] = [];
+        user.user_permissions.forEach(permission => {
+          permissions.push(permission.codename);
+        });
+
         if (user) {
-          this.userService.handleAuthentication(user.username, user.email, user.pk, token);
+          this.userService.handleAuthentication(user.username, user.email, user.pk, token, permissions);
         }
       } else {
         this.errors = result.getErrors();

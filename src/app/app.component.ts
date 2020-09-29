@@ -3,7 +3,7 @@ import {NavigationStart, Router, RouterEvent} from '@angular/router';
 import {NbAuthService} from '@nebular/auth';
 import {User} from './models/user.model';
 import {Subscription} from 'rxjs';
-import {UserService} from './services/user.service';
+import {UserService, ARCHIVE_MANAGEMENT_PERMISSION } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -14,6 +14,7 @@ export class AppComponent implements OnInit, OnDestroy{
   showHead: boolean = true;
 
   user: User;
+  archiveManagementAllowed: boolean = false;
   private userSub: Subscription;
 
   constructor(
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, OnDestroy{
   ngOnInit() {
     this.userSub = this.userService.user.subscribe(user => {
       this.user = user;
+      this.archiveManagementAllowed = this.userService.hasPermission(ARCHIVE_MANAGEMENT_PERMISSION);
     });
     this.userService.autoLogin();
   }

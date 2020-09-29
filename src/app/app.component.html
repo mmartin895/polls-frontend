@@ -16,6 +16,9 @@
         <nb-action>
           <a [routerLink]="['/polls', 'favourite']">Favourites</a>
         </nb-action>
+        <nb-action *ngIf="archiveManagementAllowed">
+          <a [routerLink]="['/polls', 'archived']">Archived</a>
+        </nb-action>        
       </nb-actions>
     </div>
 

@@ -4,8 +4,8 @@ export class User {
     public email: string,
     public id: string,
     public token: string,
+    public permissions: string[]
   ) {}
-
 }
 
 export interface UserResponse {
