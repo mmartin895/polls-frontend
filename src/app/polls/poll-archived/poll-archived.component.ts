@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Poll } from 'src/app/models/poll.model';
+import { PollService } from 'src/app/services/poll.service';
 
 @Component({
   selector: 'app-poll-archived',
@@ -7,9 +9,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class PollArchivedComponent implements OnInit {
 
-  constructor() { }
+  polls: Poll[] = [];
+  constructor(private pollservice: PollService) { }
 
   ngOnInit(): void {
+    this.pollservice.getArchivedPolls().subscribe(polls => {
+      this.polls = polls;
+    });
   }
 
+  restorePoll(poll:Poll):void {
+    this.pollservice.restorePoll(poll.id).subscribe(()=>{
+      this.polls.splice(this.polls.indexOf(poll), 1);
+    });
+  }
 }

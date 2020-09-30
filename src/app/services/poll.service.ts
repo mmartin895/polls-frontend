@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {Poll, SubmittedPoll} from '../models/poll.model';
-import {Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {environment} from '../../environments/environment';
 import {HttpClient} from '@angular/common/http';
 
@@ -36,13 +36,24 @@ export class PollService {
     this.submittedPolls = polls;
     this.submittedPollsChanged.next(this.submittedPolls);
   }
+
   public addToFavorites(id: number){
     return this.http.post(this.favoritePollsApiBaseUrl, {poll: id});
   }
+
   public removeFromFavorites(id: number){
     return this.http.delete(`${this.favoritePollsApiBaseUrl}${id}`, {});
   }
+
   public getSubmittedPollsList() {
     return this.submittedPolls.slice();
+  }
+
+  public getArchivedPolls(): Observable<Poll[]> { 
+    return this.http.get<Poll[]>(`${this.pollsApiBaseUrl}archived`);
+  }
+
+  public restorePoll(id:number): Observable<any> {
+    return this.http.post(`${this.pollsApiBaseUrl}${id}/restore/`, {});
   }
 }

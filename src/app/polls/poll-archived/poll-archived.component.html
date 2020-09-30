@@ -1,1 +1,47 @@
-<p>poll-archived works!</p>
+  <div class="row">
+    <div class="col-sm-4">
+        <nb-card style="margin-bottom: 10px; padding: 10px;" *ngFor="let poll of polls">
+            <div class="row">
+                <div class="col-xs-6">
+                    <div class="row">
+                    <div class="col-sm-12">
+                        <h6 style="margin: 0 0 7px 0; display: inline;">{{poll.title}}</h6>
+                    </div>
+                    <div class="col-sm-12">
+                        <span>{{poll.description}}</span>
+                    </div>
+                    </div>
+                </div>
+                <div class="col-xs-5">
+                    <div class="row">
+                    <div class="col-sm-12" style="text-align: right">
+                        <span style="font-size: 10px;">Created by: {{poll.user}}&nbsp;</span>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-12" style="text-align: right">
+                        <span style="font-size: 10px;">{{poll.created_at | date:'medium'}}</span>
+                    </div>
+                    </div>
+                    <div class="row">
+                    <div class="col-sm-12" style="text-align: right">
+                        <span style="font-size: 10px;">Archived at{{poll.archived_at | date:'medium'}}</span>
+                    </div>
+                    </div>
+                </div>     
+                <div class="col-xs-1">       
+                    <button nbButton 
+                        (click)="restorePoll(poll)"
+                        nbPopover="Restore" 
+                        nbPopoverTrigger="hover" 
+                        nbPopoverPlacement="bottom">
+                            <nb-icon icon="undo" status="success" ></nb-icon>
+                    </button>
+                </div>     
+            </div>
+        </nb-card>
+  </div>
+</div>
+<pre>
+{{ polls | json }}
+</pre>
