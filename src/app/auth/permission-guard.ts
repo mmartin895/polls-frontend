@@ -26,7 +26,6 @@ export class PermissionGuard implements CanActivate {
     } 
 
     // not logged in so redirect to login page with the return url
-    this.router.createUrlTree(['/auth/login']);
-    return false;
+    return this.router.createUrlTree(['/auth/login']);
   }
 }
