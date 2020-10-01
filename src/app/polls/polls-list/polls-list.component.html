@@ -6,7 +6,11 @@
   </div>
   <div class="row">
     <div class="col-sm-4">
-      <app-poll-item *ngFor="let poll of polls" [poll]="poll" [answerMode]="false" (editPoll)="selectPoll($event, poll)" (listSubmittedAnswers)="selectPoll($event, poll)"></app-poll-item>
+      <app-poll-item *ngFor="let poll of polls" 
+        [poll]="poll" [answerMode]="false" 
+        (editPoll)="selectPoll($event, poll)" 
+        (listSubmittedAnswers)="selectPoll($event, poll)">
+      </app-poll-item>
       <h6 *ngIf="polls.length === 0">No polls found.</h6>
     </div>
     <div class="col-sm-8">

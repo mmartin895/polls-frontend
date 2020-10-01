@@ -28,10 +28,10 @@ export class PollFavouriteComponent implements OnInit, OnDestroy {
     this.userSub.unsubscribe();
   }
   editPoll(poll: Poll): void{
-    this.selectedPoll = null;
-    this.cdr.detectChanges();
+    // this.selectedPoll = null;
+    // this.cdr.detectChanges();
     this.selectedPoll = poll;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
   isMyPoll(poll: Poll): boolean{
     return this.user != null && this.user.email === poll.user;

@@ -16,7 +16,6 @@ import {User} from '../../models/user.model';
 })
 export class PollEditComponent implements OnInit, OnDestroy {
   @Output() pollSubmit: EventEmitter<boolean> = new EventEmitter();
-  @Input() poll: Poll;
   @Input() editMode: boolean;
 
   questionTypes: QuestionTypeEnum[];
@@ -26,6 +25,19 @@ export class PollEditComponent implements OnInit, OnDestroy {
 
   private userSub: Subscription;
   private user: User;
+
+  private _poll: Poll;
+
+  
+  @Input() 
+  set poll(val: Poll) {
+    this._poll = val;
+    this.initForms();
+  }
+
+  get poll(): Poll{
+    return this._poll;
+  }
 
   constructor(
     private dataStorageService: DataStorageService,
@@ -47,7 +59,7 @@ export class PollEditComponent implements OnInit, OnDestroy {
       this.user = user;
     });
 
-    this.initForms();
+    // this.initForms();
   }
 
   initForms() {

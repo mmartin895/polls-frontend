@@ -36,26 +36,26 @@ export class PollsListComponent implements OnInit, OnDestroy {
   }
 
   selectPoll(event, poll: Poll) {
-    this.createPollMode = null;
-    this.selectedPoll = null;
-    this.editMode = false;
-    this.cdr.detectChanges();
+    // this.createPollMode = null;
+    // this.selectedPoll = null;
+    // this.editMode = false;
+    // this.cdr.detectChanges();
     this.createPollMode = event;
     this.editMode = event;
     this.selectedPoll = poll;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
     this.dataStorageService.fetchQuestionsListFilteredByPoll(poll.id).subscribe();
   }
 
   activateCreatePollMode() {
-    this.createPollMode = null;
-    this.selectedPoll = null;
-    this.editMode = false;
-    this.cdr.detectChanges();
+    // this.createPollMode = null;
+    // this.selectedPoll = null;
+    // this.editMode = false;
+    // this.cdr.detectChanges();
     this.createPollMode = true;
     this.editMode = false;
     this.selectedPoll = null;
-    this.cdr.detectChanges();
+    // this.cdr.detectChanges();
   }
 
   pollSubmitted(event) {
