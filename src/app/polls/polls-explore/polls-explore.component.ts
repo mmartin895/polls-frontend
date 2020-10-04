@@ -13,7 +13,7 @@ export class PollsExploreComponent implements OnInit, OnDestroy {
   pollsSubscription: Subscription;
   polls: Poll[] = [];
   selectedPoll: Poll;
-
+  public search: string;
   constructor(
     private pollService: PollService,
     private dataStorageService: DataStorageService,
@@ -55,5 +55,10 @@ export class PollsExploreComponent implements OnInit, OnDestroy {
       this.selectedPoll = null;
     }
     this.cdr.detectChanges();
+  }
+  pollSearch(event: any){
+    this.pollService.searchPolls(this.search).subscribe((polls: Poll[]) => {
+      this.polls = polls;
+    });
   }
 }

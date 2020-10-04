@@ -1,11 +1,11 @@
-<div class="container">
+<div class="container" >
   <div class="row">
     <div class="col-sm-5">
       <app-poll-item *ngFor="let poll of polls" [poll]="poll" (editPoll)="editPoll(poll)" [answerMode]="!isMyPoll(poll)"></app-poll-item>
       <h6 *ngIf="polls.length === 0">No polls found.</h6>
     </div>
     <div class="col-sm-7">
-      <app-poll-edit *ngIf="selectedPoll" [poll]="selectedPoll" [editMode]="true"></app-poll-edit>
+      <app-poll-edit *ngIf="showEditPoll" [poll]="selectedPoll" [editMode]="true" (pollSubmit)="onPollEditSubmit($event)"></app-poll-edit>
       <!--     <app-polls-submitted *ngIf="!createPollMode && selectedPoll" [poll]="selectedPoll"></app-polls-submitted>-->
     </div>
   </div>

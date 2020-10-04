@@ -11,6 +11,7 @@ import {Subscription} from 'rxjs';
   styleUrls: ['./poll-favourite.component.scss']
 })
 export class PollFavouriteComponent implements OnInit, OnDestroy {
+  public showEditPoll = false;
   private user: User;
   public polls: Poll[] = [];
   private userSub: Subscription;
@@ -31,9 +32,17 @@ export class PollFavouriteComponent implements OnInit, OnDestroy {
     // this.selectedPoll = null;
     // this.cdr.detectChanges();
     this.selectedPoll = poll;
+    this.showEditPoll = true;
     // this.cdr.detectChanges();
   }
   isMyPoll(poll: Poll): boolean{
     return this.user != null && this.user.email === poll.user;
+  }
+  onPollEditSubmit(isChanged: boolean){
+    this.selectedPoll = null;
+    this.showEditPoll = false;
+    this.dataStorage.fetchFavouritePollsList().subscribe((favouritePolls: Poll[]) => {
+      this.polls = favouritePolls;
+    });
   }
 }

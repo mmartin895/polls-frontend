@@ -1,5 +1,11 @@
 <div class="container">
   <div class="row">
+    <div class="col-sm-4">
+          <input type="text" id="poll-title" nbInput fullWidth [(ngModel)]="search">
+    </div>
+    <div class="col-sm-3"><button nbButton outline status="primary" (click)="pollSearch($event)">Search</button></div>
+  </div>
+  <div class="row" style="margin-top: 1%">
     <div class="col-sm-5">
       <app-poll-item *ngFor="let poll of polls" [poll]="poll" [answerMode]="true" (click)="selectPoll($event, poll)"></app-poll-item>
       <h6 *ngIf="polls.length === 0">No polls found.</h6>

@@ -2,7 +2,8 @@ import { Injectable } from '@angular/core';
 import {Poll, SubmittedPoll} from '../models/poll.model';
 import {Observable, Subject} from 'rxjs';
 import {environment} from '../../environments/environment';
-import {HttpClient} from '@angular/common/http';
+import {HttpClient, HttpParams} from '@angular/common/http';
+import {tap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -49,11 +50,19 @@ export class PollService {
     return this.submittedPolls.slice();
   }
 
-  public getArchivedPolls(): Observable<Poll[]> { 
+  public getArchivedPolls(): Observable<Poll[]> {
     return this.http.get<Poll[]>(`${this.pollsApiBaseUrl}archived`);
   }
 
-  public restorePoll(id:number): Observable<any> {
+  public restorePoll(id: number): Observable<any> {
     return this.http.post(`${this.pollsApiBaseUrl}${id}/restore/`, {});
+  }
+
+  public searchPolls(search: string): Observable<Poll[]> {
+    let params;
+    if (search) {
+      params = new HttpParams().set('search', search);
+    }
+    return this.http.get<Poll[]>(this.pollsApiBaseUrl, {params});
   }
 }
