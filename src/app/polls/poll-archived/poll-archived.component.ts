@@ -23,4 +23,12 @@ export class PollArchivedComponent implements OnInit {
       this.polls.splice(this.polls.indexOf(poll), 1);
     });
   }
+
+  deletePoll(poll:Poll):void {
+    if (confirm(`Are you sure you want to permanently delete poll ${poll.title}?`)) {
+      this.pollservice.deletePoll(poll.id).subscribe(()=>{
+        this.polls.splice(this.polls.indexOf(poll), 1);
+      });
+    }    
+  }
 }

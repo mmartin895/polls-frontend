@@ -31,11 +31,20 @@
                 </div>     
                 <div class="col-xs-1">       
                     <button nbButton 
+                        status="success"
                         (click)="restorePoll(poll)"
                         nbPopover="Restore" 
                         nbPopoverTrigger="hover" 
                         nbPopoverPlacement="bottom">
-                            <nb-icon icon="undo" status="success" ></nb-icon>
+                            <nb-icon icon="undo" ></nb-icon>
+                    </button>
+                    <button nbButton 
+                        status="danger"
+                        (click)="deletePoll(poll)"
+                        nbPopover="Delete" 
+                        nbPopoverTrigger="hover" 
+                        nbPopoverPlacement="bottom">
+                            <nb-icon icon="trash" ></nb-icon>
                     </button>
                 </div>     
             </div>

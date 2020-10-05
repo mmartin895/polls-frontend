@@ -58,6 +58,10 @@ export class PollService {
     return this.http.post(`${this.pollsApiBaseUrl}${id}/restore/`, {});
   }
 
+  public deletePoll(id: number): Observable<any> {
+    return this.http.delete(`${this.pollsApiBaseUrl}${id}/delete/`);
+  }  
+
   public searchPolls(search: string): Observable<Poll[]> {
     let params;
     if (search) {
