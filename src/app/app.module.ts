@@ -25,7 +25,7 @@ import {
   NbContextMenuModule,
   NbMenuModule,
   NbTabsetModule,
-  NbActionsModule, NbAccordionModule, NbPopoverModule,
+  NbActionsModule, NbAccordionModule, NbPopoverModule, NbDialogModule
 } from '@nebular/theme';
 import { NbEvaIconsModule } from '@nebular/eva-icons';
 import { PollEditComponent } from './polls/poll-edit/poll-edit.component';
@@ -39,6 +39,7 @@ import { PollsSubmittedComponent } from './polls/polls-submitted/polls-submitted
 import {ClipboardModule} from 'ngx-clipboard';
 import { PollFavouriteComponent } from './polls/poll-favourite/poll-favourite.component';
 import { PollArchivedComponent } from './polls/poll-archived/poll-archived.component';
+import { YesNoDialogComponent } from './yesno-dialog.component';
 
 @NgModule({
   declarations: [
@@ -53,6 +54,7 @@ import { PollArchivedComponent } from './polls/poll-archived/poll-archived.compo
     PollsSubmittedComponent,
     PollFavouriteComponent,
     PollArchivedComponent,
+    YesNoDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -107,6 +109,7 @@ import { PollArchivedComponent } from './polls/poll-archived/poll-archived.compo
     NbActionsModule,
     NbAccordionModule,
     ClipboardModule,
+    NbDialogModule.forRoot(),
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
